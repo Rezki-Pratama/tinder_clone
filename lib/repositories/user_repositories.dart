@@ -12,7 +12,7 @@ class UserRepository {
 
   //fungsi login
   Future<void> signInWithEmail(String email, String password) {
-    _firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
+    return _firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
   }
 
   // check jika pertama kali login
