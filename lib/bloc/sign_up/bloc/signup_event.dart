@@ -45,7 +45,7 @@ class Submitted extends SignUpEvent {
   List<Object> get props => [email, password];
 }
 
-//login dengan credential
+//signup dengan credential
 class SignUpWithCredentialsPressed extends SignUpEvent {
   final String email, password;
 

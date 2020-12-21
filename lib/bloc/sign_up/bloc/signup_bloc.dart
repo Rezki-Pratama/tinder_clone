@@ -40,7 +40,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
       //ketika password berubah
       yield* _mapPasswordChangedToState(event.password);
     } else if (event is SignUpWithCredentialsPressed) {
-      //ketika event login kredensial
+      //ketika event signup kredensial
       yield* _mapSignUpWithCredentialsPressedToState(
           email: event.email, password: event.password);
     }
