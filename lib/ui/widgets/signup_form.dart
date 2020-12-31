@@ -59,12 +59,11 @@ class _SignUpFormState extends State<SignUpForm> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-    return BlocConsumer<SignUpBloc, SignUpState>(
+    return BlocListener<SignUpBloc, SignUpState>(
       listener: (BuildContext context, SignUpState state) {
         if (state.isFailure) {
           Scaffold.of(context)
             ..hideCurrentSnackBar()
-            //Show snake bar
             ..showSnackBar(
               SnackBar(
                 content: Row(
@@ -98,6 +97,7 @@ class _SignUpFormState extends State<SignUpForm> {
           Navigator.of(context).pop();
         }
       },
+      child: BlocBuilder<SignUpBloc, SignUpState>(
         builder: (context, state) {
           return SingleChildScrollView(
             scrollDirection: Axis.vertical,
@@ -205,7 +205,8 @@ class _SignUpFormState extends State<SignUpForm> {
             ),
           );
         },
-      );
+      ),
+    );
   }
 
   void _onEmailChanged() {

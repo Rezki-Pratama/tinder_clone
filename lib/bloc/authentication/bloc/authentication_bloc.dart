@@ -49,10 +49,9 @@ class AuthenticationBloc
     }
   }
 
-  Stream<AuthenticationState> _mapLoggedInToState() async* {
+   Stream<AuthenticationState> _mapLoggedInToState() async* {
     final isFirstTime =
         await _userRepository.isFirstTime(await _userRepository.getUser());
-
     if (!isFirstTime) {
       yield AuthenticatedButNotSet(await _userRepository.getUser());
     } else {
