@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+
 class UserRepository {
   final FirebaseAuth _firebaseAuth;
   final FirebaseFirestore _firestore;
@@ -12,24 +13,29 @@ class UserRepository {
 
   //fungsi login
   Future<void> signInWithEmail(String email, String password) {
-    return _firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
+    return _firebaseAuth.signInWithEmailAndPassword(
+        email: email, password: password);
   }
 
   // check jika pertama kali login
   Future<bool> isFirstTime(String userId) async {
     bool exist;
-    await FirebaseFirestore.instance
+    try {
+      FirebaseFirestore.instance
         .collection('users')
-        .doc(userId)
+        .document(userId)
         .get()
-        .then((user) => {exist = user.exists});
-
-    return exist;
+        .then((user) {
+      exist = user.exists;
+    });
+      return exist;
+    } catch (e) {
+      return false;
+    }
   }
 
   //daftar akun
   Future<void> signUpWithEmail(String email, String password) async {
-    print(_firebaseAuth);
     return await _firebaseAuth.createUserWithEmailAndPassword(
         email: email, password: password);
   }
@@ -47,7 +53,7 @@ class UserRepository {
 
   //get uid
   Future<String> getUser() async {
-    return _firebaseAuth.currentUser.uid;
+    final currentUser = _firebaseAuth.currentUser;
+    return currentUser.uid ?? '';
   }
-
 }
