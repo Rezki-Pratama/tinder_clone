@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/services.dart';
 import 'package:meta/meta.dart';
 import 'package:tinder/repositories/user_repositories.dart';
 import 'package:tinder/ui/validators.dart';
@@ -11,9 +13,12 @@ part 'login_event.dart';
 part 'login_state.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
-  LoginBloc(this._userRepository) : super(LoginState.empty());
 
   UserRepository _userRepository;
+
+  LoginBloc({@required UserRepository userRepository})
+      : assert(userRepository != null),
+        _userRepository = userRepository, super(LoginState.empty());
 
   @override
   Stream<Transition<LoginEvent, LoginState>> transformEvents(
@@ -61,13 +66,19 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     String email,
     String password,
   }) async* {
+    print('email :'+ email);
+    print('password :'+ password);
     yield LoginState.loading();
 
     try {
       await _userRepository.signInWithEmail(email, password);
 
-      yield LoginState.success();
-    } catch (_) {
+      // yield LoginState.success();
+    } on FirebaseAuthException catch (e) {
+      print('FirebaseAuthException :'+ e.toString());
+      LoginState.failure();
+    } on PlatformException  catch (e) {
+      print('PlatformException :'+ e.toString());
       LoginState.failure();
     }
   }

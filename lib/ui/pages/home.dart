@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tinder/bloc/authentication/bloc/authentication_bloc.dart';
 import 'package:tinder/repositories/user_repositories.dart';
-import 'package:tinder/ui/pages/sign_up.dart';
+import 'package:tinder/ui/pages/login.dart';
 import 'package:tinder/ui/pages/spash.dart';
-import 'package:tinder/ui/widgets/tabs.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -38,7 +37,7 @@ class _HomeState extends State<Home> {
               if(state is Uninitialised) {
                 return Splash();
               } else {
-                return SignUp(
+                return Login(
                   userRepository: _userRepository,
                 );
               }

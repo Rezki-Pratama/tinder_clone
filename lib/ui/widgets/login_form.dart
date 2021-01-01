@@ -1,38 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tinder/bloc/authentication/bloc/authentication_bloc.dart';
-import 'package:tinder/bloc/sign_up/bloc/signup_bloc.dart';
+import 'package:tinder/bloc/login/bloc/login_bloc.dart';
 import 'package:tinder/repositories/user_repositories.dart';
+import 'package:tinder/ui/pages/sign_up.dart';
 import 'package:tinder/ui/utilities.dart';
 
-class SignUpForm extends StatefulWidget {
+class LoginForm extends StatefulWidget {
   final UserRepository _userRepository;
-
-  SignUpForm({@required UserRepository userRepository})
+  LoginForm({@required UserRepository userRepository})
       : assert(userRepository != null),
         _userRepository = userRepository;
 
   @override
-  _SignUpFormState createState() => _SignUpFormState();
+  _LoginFormState createState() => _LoginFormState();
 }
 
-class _SignUpFormState extends State<SignUpForm> {
+class _LoginFormState extends State<LoginForm> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  LoginBloc _loginBloc;
 
-  SignUpBloc _signUpBloc;
-  //UserRepository get _userRepository => widget._userRepository;
+  UserRepository get _userRepository => widget._userRepository;
 
   bool get isPopulated =>
       _emailController.text.isNotEmpty && _passwordController.text.isNotEmpty;
 
-  bool isSignUpButtonEnabled(SignUpState state) {
+  bool isLoginButtonEnabled(LoginState state) {
     return isPopulated && !state.isSubmitting;
   }
 
   @override
   void initState() {
-    _signUpBloc = BlocProvider.of<SignUpBloc>(context);
+    _loginBloc = BlocProvider.of<LoginBloc>(context);
 
     _emailController.addListener(_onEmailChanged);
     _passwordController.addListener(_onPasswordChanged);
@@ -40,9 +40,21 @@ class _SignUpFormState extends State<SignUpForm> {
     super.initState();
   }
 
+  void _onEmailChanged() {
+    _loginBloc.add(
+      EmailChanged(email: _emailController.text),
+    );
+  }
+
+  void _onPasswordChanged() {
+    _loginBloc.add(
+      PasswordChanged(password: _passwordController.text),
+    );
+  }
+
   void _onFormSubmitted() {
-    _signUpBloc.add(
-      SignUpWithCredentialsPressed(
+    _loginBloc.add(
+      LoginWithCredentialsPressed(
           email: _emailController.text, password: _passwordController.text),
     );
   }
@@ -59,47 +71,52 @@ class _SignUpFormState extends State<SignUpForm> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-    return BlocConsumer<SignUpBloc, SignUpState>(
-      listener: (BuildContext context, SignUpState state) {
+    return BlocConsumer<LoginBloc, LoginState>(
+      listener: (context, state) {
         if (state.isFailure) {
           Scaffold.of(context)
+            // ignore: deprecated_member_use
             ..hideCurrentSnackBar()
+            // ignore: deprecated_member_use
             ..showSnackBar(
               SnackBar(
                 content: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Text("Sign Up Failed"),
+                    Text("Login Failed"),
                     Icon(Icons.error),
                   ],
                 ),
               ),
             );
         }
+
         if (state.isSubmitting) {
           print("isSubmitting");
           Scaffold.of(context)
+            // ignore: deprecated_member_use
+            ..hideCurrentSnackBar()
+            // ignore: deprecated_member_use
             ..showSnackBar(
               SnackBar(
                 content: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Text("Signing up..."),
+                    Text(" Logging In..."),
                     CircularProgressIndicator(),
                   ],
                 ),
               ),
             );
         }
+
         if (state.isSuccess) {
           print("Success");
           BlocProvider.of<AuthenticationBloc>(context).add(LoggedIn());
-          Navigator.of(context).pop();
         }
       },
       builder: (context, state) {
           return SingleChildScrollView(
-            scrollDirection: Axis.vertical,
             child: Container(
               color: backgroundColor,
               width: size.width,
@@ -172,48 +189,62 @@ class _SignUpFormState extends State<SignUpForm> {
                   ),
                   Padding(
                     padding: EdgeInsets.all(size.height * 0.02),
-                    child: GestureDetector(
-                      onTap: isSignUpButtonEnabled(state)
-                          ? _onFormSubmitted
-                          : null,
-                      child: Container(
-                        width: size.width * 0.8,
-                        height: size.height * 0.06,
-                        decoration: BoxDecoration(
-                          color: isSignUpButtonEnabled(state)
-                              ? Colors.white
-                              : Colors.grey,
-                          borderRadius:
-                              BorderRadius.circular(size.height * 0.05),
-                        ),
-                        child: Center(
-                          child: Text(
-                            "Sign Up",
-                            style: TextStyle(
-                                fontSize: size.height * 0.025,
-                                color: Colors.blue),
+                    child: Column(
+                      children: <Widget>[
+                        GestureDetector(
+                          onTap: isLoginButtonEnabled(state)
+                              ? _onFormSubmitted
+                              : null,
+                          child: Container(
+                            width: size.width * 0.8,
+                            height: size.height * 0.06,
+                            decoration: BoxDecoration(
+                              color: isLoginButtonEnabled(state)
+                                  ? Colors.white
+                                  : Colors.grey,
+                              borderRadius:
+                                  BorderRadius.circular(size.height * 0.05),
+                            ),
+                            child: Center(
+                              child: Text(
+                                "Login",
+                                style: TextStyle(
+                                    fontSize: size.height * 0.025,
+                                    color: Colors.blue),
+                              ),
+                            ),
                           ),
                         ),
-                      ),
+                        SizedBox(
+                          height: size.height * 0.02,
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return SignUp(
+                                    userRepository: _userRepository,
+                                  );
+                                },
+                              ),
+                            );
+                          },
+                          child: Text(
+                            "Are you new? Get an Account",
+                            style: TextStyle(
+                                fontSize: size.height * 0.025,
+                                color: Colors.white),
+                          ),
+                        )
+                      ],
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
           );
         },
-    );
-  }
-
-  void _onEmailChanged() {
-    _signUpBloc.add(
-      EmailChanged(email: _emailController.text),
-    );
-  }
-
-  void _onPasswordChanged() {
-    _signUpBloc.add(
-      PasswordChanged(password: _passwordController.text),
-    );
+      );
   }
 }

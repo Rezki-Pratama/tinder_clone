@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-
 class UserRepository {
   final FirebaseAuth _firebaseAuth;
   final FirebaseFirestore _firestore;
@@ -19,19 +18,16 @@ class UserRepository {
 
   // check jika pertama kali login
   Future<bool> isFirstTime(String userId) async {
-    bool exist;
-    try {
-      FirebaseFirestore.instance
+    print(userId);
+    bool exist = false;
+    FirebaseFirestore.instance
         .collection('users')
-        .document(userId)
+        .doc(userId)
         .get()
         .then((user) {
       exist = user.exists;
     });
-      return exist;
-    } catch (e) {
-      return false;
-    }
+    return exist;
   }
 
   //daftar akun
