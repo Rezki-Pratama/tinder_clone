@@ -3,7 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tinder/bloc/authentication/bloc/authentication_bloc.dart';
 import 'package:tinder/repositories/user_repositories.dart';
 import 'package:tinder/ui/pages/login.dart';
+import 'package:tinder/ui/pages/profile.dart';
 import 'package:tinder/ui/pages/spash.dart';
+import 'package:tinder/ui/widgets/tabs.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -16,7 +18,6 @@ class _HomeState extends State<Home> {
 
   @override
   void initState() {
-    
     _authenticationBloc = AuthenticationBloc(_userRepository);
 
     _authenticationBloc.add(AppStarted());
@@ -28,19 +29,32 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => _authenticationBloc,
-          child: MaterialApp(
+      child: MaterialApp(
         debugShowCheckedModeBanner: false,
         home: Scaffold(
           body: BlocBuilder(
             cubit: _authenticationBloc,
             builder: (context, state) {
-              if(state is Uninitialised) {
+              if (state is Uninitialised) {
                 return Splash();
-              } else {
+              }
+              if (state is Authenticated) {
+                return Tabs(
+                  userId: state.userId,
+                );
+              }
+              if (state is AuthenticatedButNotSet) {
+                return Profile(
+                  userRepository: _userRepository,
+                  userId: state.userId,
+                );
+              }
+              if (state is UnAuthenticated) {
                 return Login(
                   userRepository: _userRepository,
                 );
-              }
+              } else
+                return Container();
             },
           ),
         ),

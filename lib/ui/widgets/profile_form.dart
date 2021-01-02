@@ -33,7 +33,7 @@ class _ProfileFormState extends State<ProfileForm> {
   GeoPoint location;
   ProfileBloc _profileBloc;
 
-  //UserRepository get _userRepository => widget._userRepository;
+  UserRepository get _userRepository => widget._userRepository;
 
   bool get isFilled =>
       _nameController.text.isNotEmpty &&
@@ -140,10 +140,11 @@ class _ProfileFormState extends State<ProfileForm> {
                       child: photo == null
                           ? GestureDetector(
                               onTap: () async {
-                                FilePickerResult result = await FilePicker.platform.pickFiles(type: FileType.image);
-                                if (result != null) {
+                                 File getPic = await FilePicker.getFile(
+                                    type: FileType.image);
+                                if (getPic != null) {
                                   setState(() {
-                                    photo = File(result.files.single.path) ;
+                                    photo = getPic;
                                   });
                                 }
                               },
@@ -151,10 +152,11 @@ class _ProfileFormState extends State<ProfileForm> {
                             )
                           : GestureDetector(
                               onTap: () async {
-                                FilePickerResult result = await FilePicker.platform.pickFiles(type: FileType.image);
-                                if (result != null) {
+                                File getPic = await FilePicker.getFile(
+                                    type: FileType.image);
+                                if (getPic != null) {
                                   setState(() {
-                                    photo = File(result.files.single.path) ;
+                                    photo = getPic;
                                   });
                                 }
                               },
@@ -173,6 +175,12 @@ class _ProfileFormState extends State<ProfileForm> {
                         showTitleActions: true,
                         minTime: DateTime(1900, 1, 1),
                         maxTime: DateTime(DateTime.now().year - 19, 1, 1),
+                        theme: DatePickerTheme(
+                          headerColor: Colors.orange,
+                          backgroundColor: Colors.blue,
+                          itemStyle: TextStyle(
+                              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18),
+                          doneStyle: TextStyle(color: Colors.white, fontSize: 16)),
                         onConfirm: (date) {
                           setState(() {
                             age = date;
