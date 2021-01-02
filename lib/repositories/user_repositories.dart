@@ -1,5 +1,7 @@
+import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class UserRepository {
   final FirebaseAuth _firebaseAuth;
@@ -50,6 +52,37 @@ class UserRepository {
   //get uid
   Future<String> getUser() async {
     final currentUser = _firebaseAuth.currentUser;
-    return currentUser.uid ?? '';
+    return currentUser.uid;
+  }
+
+  //profile setup
+  Future<void> profileSetup(
+      File photo,
+      String userId,
+      String name,
+      String gender,
+      String interestedIn,
+      DateTime age,
+      GeoPoint location) async {
+    UploadTask uploadTask;
+    uploadTask = FirebaseStorage.instance
+        .ref()
+        .child('userPhotos')
+        .child(userId)
+        .child(userId)
+        .putFile(photo);
+
+    //ketika berhasil upload file , mendapatkan url photo untuk disimpan di firestore dengan data yang lain
+    return await (await uploadTask).ref.getDownloadURL().then((url) async {
+        await _firestore.collection('users').doc(userId).set({
+          'uid': userId,
+          'photoUrl': url,
+          'name': name,
+          "location": location,
+          'gender': gender,
+          'interestedIn': interestedIn,
+          'age': age
+        });
+      });
   }
 }
