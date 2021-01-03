@@ -20,16 +20,11 @@ class UserRepository {
 
   // check jika pertama kali login
   Future<bool> isFirstTime(String userId) async {
-    print(userId);
-    bool exist = false;
-    FirebaseFirestore.instance
+    return FirebaseFirestore.instance
         .collection('users')
         .doc(userId)
         .get()
-        .then((user) {
-      exist = user.exists;
-    });
-    return exist;
+        .then((user) => user.exists);
   }
 
   //daftar akun
@@ -74,15 +69,15 @@ class UserRepository {
 
     //ketika berhasil upload file , mendapatkan url photo untuk disimpan di firestore dengan data yang lain
     return await (await uploadTask).ref.getDownloadURL().then((url) async {
-        await _firestore.collection('users').doc(userId).set({
-          'uid': userId,
-          'photoUrl': url,
-          'name': name,
-          "location": location,
-          'gender': gender,
-          'interestedIn': interestedIn,
-          'age': age
-        });
+      await _firestore.collection('users').doc(userId).set({
+        'uid': userId,
+        'photoUrl': url,
+        'name': name,
+        "location": location,
+        'gender': gender,
+        'interestedIn': interestedIn,
+        'age': age
       });
+    });
   }
 }

@@ -35,6 +35,7 @@ class AuthenticationBloc
       if (isSignedIn) {
         final uid = await _userRepository.getUser();
         final isFirstTime = await _userRepository.isFirstTime(uid);
+        print('auth is exists :'+ isFirstTime.toString());
         //check jika bukan pertama kali login
         if (!isFirstTime) {
           yield AuthenticatedButNotSet(uid);
@@ -52,7 +53,7 @@ class AuthenticationBloc
    Stream<AuthenticationState> _mapLoggedInToState() async* {
     final isFirstTime =
         await _userRepository.isFirstTime(await _userRepository.getUser());
-        print(isFirstTime);
+        print('cek awal'+ isFirstTime.toString());
     if (!isFirstTime) {
       yield AuthenticatedButNotSet(await _userRepository.getUser());
     } else {

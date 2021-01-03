@@ -73,7 +73,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     try {
       await _userRepository.signInWithEmail(email, password);
 
-      // yield LoginState.success();
+      yield LoginState.success();
     } on FirebaseAuthException catch (e) {
       print('FirebaseAuthException :'+ e.toString());
       LoginState.failure();

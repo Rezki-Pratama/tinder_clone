@@ -58,7 +58,7 @@ class LoginState {
         isPasswordValid: isPasswordValid,
         isSubmitting: false,
         isFailure: false,
-        isSuccess: true);
+        isSuccess: false);
   }
 
   LoginState copyWith(

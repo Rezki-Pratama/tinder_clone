@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:tinder/bloc/authentication/bloc/authentication_bloc.dart';
 import 'package:tinder/bloc/profile/bloc/profile_bloc.dart';
 import 'package:tinder/repositories/user_repositories.dart';
@@ -26,7 +27,7 @@ class ProfileForm extends StatefulWidget {
 
 class _ProfileFormState extends State<ProfileForm> {
   final TextEditingController _nameController = TextEditingController();
-
+  final _picker = ImagePicker();
   String gender, interestedIn;
   DateTime age;
   File photo;
@@ -47,7 +48,8 @@ class _ProfileFormState extends State<ProfileForm> {
   }
 
   _getLocation() async {
-    Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
 
     location = GeoPoint(position.latitude, position.longitude);
   }
@@ -63,6 +65,19 @@ class _ProfileFormState extends State<ProfileForm> {
           interestedIn: interestedIn,
           photo: photo),
     );
+  }
+
+  _getImage() async {
+    PickedFile getPic = await _picker.getImage(
+        source: ImageSource.gallery,
+        imageQuality: 20,
+        maxHeight: 480,
+        maxWidth: 640);
+    if (getPic != null) {
+      setState(() {
+        photo = File(getPic.path);
+      });
+    }
   }
 
   @override
@@ -139,27 +154,11 @@ class _ProfileFormState extends State<ProfileForm> {
                       backgroundColor: Colors.transparent,
                       child: photo == null
                           ? GestureDetector(
-                              onTap: () async {
-                                 File getPic = await FilePicker.getFile(
-                                    type: FileType.image);
-                                if (getPic != null) {
-                                  setState(() {
-                                    photo = getPic;
-                                  });
-                                }
-                              },
+                              onTap: _getImage,
                               child: Image.asset('assets/profilephoto.png'),
                             )
                           : GestureDetector(
-                              onTap: () async {
-                                File getPic = await FilePicker.getFile(
-                                    type: FileType.image);
-                                if (getPic != null) {
-                                  setState(() {
-                                    photo = getPic;
-                                  });
-                                }
-                              },
+                              onTap: _getImage,
                               child: CircleAvatar(
                                 radius: size.width * 0.3,
                                 backgroundImage: FileImage(photo),
@@ -176,11 +175,14 @@ class _ProfileFormState extends State<ProfileForm> {
                         minTime: DateTime(1900, 1, 1),
                         maxTime: DateTime(DateTime.now().year - 19, 1, 1),
                         theme: DatePickerTheme(
-                          headerColor: Colors.orange,
-                          backgroundColor: Colors.blue,
-                          itemStyle: TextStyle(
-                              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18),
-                          doneStyle: TextStyle(color: Colors.white, fontSize: 16)),
+                            headerColor: Colors.orange,
+                            backgroundColor: Colors.blue,
+                            itemStyle: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18),
+                            doneStyle:
+                                TextStyle(color: Colors.white, fontSize: 16)),
                         onConfirm: (date) {
                           setState(() {
                             age = date;
