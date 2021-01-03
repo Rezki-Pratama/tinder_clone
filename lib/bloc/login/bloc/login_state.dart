@@ -53,6 +53,8 @@ class LoginState {
   }
 
   LoginState update({bool isEmailValid, bool isPasswordValid}) {
+    print('state email :'+ isEmailValid.toString());
+    print('state password :'+ isPasswordValid.toString());
     return copyWith(
         isEmailValid: isEmailValid,
         isPasswordValid: isPasswordValid,
