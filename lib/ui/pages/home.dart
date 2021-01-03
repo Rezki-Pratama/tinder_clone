@@ -7,57 +7,40 @@ import 'package:tinder/ui/pages/profile.dart';
 import 'package:tinder/ui/pages/spash.dart';
 import 'package:tinder/ui/widgets/tabs.dart';
 
-class Home extends StatefulWidget {
-  @override
-  _HomeState createState() => _HomeState();
-}
+class Home extends StatelessWidget {
+  final UserRepository _userRepository;
 
-class _HomeState extends State<Home> {
-  final UserRepository _userRepository = UserRepository();
-  AuthenticationBloc _authenticationBloc;
-
-  @override
-  void initState() {
-    _authenticationBloc = AuthenticationBloc(_userRepository);
-
-    _authenticationBloc.add(AppStarted());
-
-    super.initState();
-  }
+  Home({@required UserRepository userRepository})
+      : assert(userRepository != null),
+        _userRepository = userRepository;
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => _authenticationBloc,
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: Scaffold(
-          body: BlocBuilder(
-            cubit: _authenticationBloc,
-            builder: (context, state) {
-              if (state is Uninitialised) {
-                return Splash();
-              }
-              if (state is Authenticated) {
-                return Tabs(
-                  userId: state.userId,
-                );
-              }
-              if (state is AuthenticatedButNotSet) {
-                return Profile(
-                  userRepository: _userRepository,
-                  userId: state.userId,
-                );
-              }
-              if (state is UnAuthenticated) {
-                return Login(
-                  userRepository: _userRepository,
-                );
-              } else
-                return Container();
-            },
-          ),
-        ),
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
+        builder: (context, state) {
+          if (state is Uninitialised) {
+            return Splash();
+          }
+          if (state is Authenticated) {
+            return Tabs(
+              userId: state.userId,
+            );
+          }
+          if (state is AuthenticatedButNotSet) {
+            return Profile(
+              userRepository: _userRepository,
+              userId: state.userId,
+            );
+          }
+          if (state is UnAuthenticated) {
+            return Login(
+              userRepository: _userRepository,
+            );
+          } else
+            return Container();
+        },
       ),
     );
   }

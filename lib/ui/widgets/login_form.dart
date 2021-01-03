@@ -71,180 +71,171 @@ class _LoginFormState extends State<LoginForm> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-    return BlocConsumer<LoginBloc, LoginState>(
-      listener: (context, state) {
-        if (state.isFailure) {
-          Scaffold.of(context)
-            // ignore: deprecated_member_use
-            ..hideCurrentSnackBar()
-            // ignore: deprecated_member_use
-            ..showSnackBar(
-              SnackBar(
-                content: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Text("Login Failed"),
-                    Icon(Icons.error),
-                  ],
-                ),
-              ),
-            );
-        }
-
-        if (state.isSubmitting) {
-          print("isSubmitting");
-          Scaffold.of(context)
-            // ignore: deprecated_member_use
-            ..hideCurrentSnackBar()
-            // ignore: deprecated_member_use
-            ..showSnackBar(
-              SnackBar(
-                content: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Text(" Logging In..."),
-                    CircularProgressIndicator(),
-                  ],
-                ),
-              ),
-            );
-        }
-
-        if (state.isSuccess) {
-          print("Success");
-          BlocProvider.of<AuthenticationBloc>(context).add(LoggedIn());
-        }
-      },
-      builder: (context, state) {
-          return SingleChildScrollView(
-            child: Container(
-              color: backgroundColor,
-              width: size.width,
-              height: size.height,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
+    return BlocListener<LoginBloc, LoginState>(listener: (context, state) {
+      if (state.isFailure) {
+        Scaffold.of(context)
+          ..hideCurrentSnackBar()
+          ..showSnackBar(
+            SnackBar(
+              content: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Center(
-                    child: Text(
-                      "Chill",
-                      style: TextStyle(
-                          fontSize: size.width * 0.2, color: Colors.white),
-                    ),
-                  ),
-                  Container(
-                    width: size.width * 0.8,
-                    child: Divider(
-                      height: size.height * 0.05,
-                      color: Colors.white,
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(size.height * 0.02),
-                    child: TextFormField(
-                      controller: _emailController,
-                      validator: (_) {
-                        return !state.isEmailValid ? "Invalid Email" : null;
-                      },
-                      decoration: InputDecoration(
-                        labelText: "Email",
-                        labelStyle: TextStyle(
-                            color: Colors.white, fontSize: size.height * 0.03),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide:
-                              BorderSide(color: Colors.white, width: 1.0),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide:
-                              BorderSide(color: Colors.white, width: 1.0),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(size.height * 0.02),
-                    child: TextFormField(
-                      controller: _passwordController,
-                      autocorrect: false,
-                      obscureText: true,
-                      validator: (_) {
-                        return !state.isPasswordValid
-                            ? "Invalid Password"
-                            : null;
-                      },
-                      decoration: InputDecoration(
-                        labelText: "Password",
-                        labelStyle: TextStyle(
-                            color: Colors.white, fontSize: size.height * 0.03),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide:
-                              BorderSide(color: Colors.white, width: 1.0),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide:
-                              BorderSide(color: Colors.white, width: 1.0),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(size.height * 0.02),
-                    child: Column(
-                      children: <Widget>[
-                        GestureDetector(
-                          onTap: isLoginButtonEnabled(state)
-                              ? _onFormSubmitted
-                              : null,
-                          child: Container(
-                            width: size.width * 0.8,
-                            height: size.height * 0.06,
-                            decoration: BoxDecoration(
-                              color: isLoginButtonEnabled(state)
-                                  ? Colors.white
-                                  : Colors.grey,
-                              borderRadius:
-                                  BorderRadius.circular(size.height * 0.05),
-                            ),
-                            child: Center(
-                              child: Text(
-                                "Login",
-                                style: TextStyle(
-                                    fontSize: size.height * 0.025,
-                                    color: Colors.blue),
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: size.height * 0.02,
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) {
-                                  return SignUp(
-                                    userRepository: _userRepository,
-                                  );
-                                },
-                              ),
-                            );
-                          },
-                          child: Text(
-                            "Are you new? Get an Account",
-                            style: TextStyle(
-                                fontSize: size.height * 0.025,
-                                color: Colors.white),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
+                  Text("Login Failed"),
+                  Icon(Icons.error),
                 ],
               ),
             ),
           );
-        },
-      );
+      }
+
+      if (state.isSubmitting) {
+        print("isSubmitting");
+        Scaffold.of(context)
+          ..hideCurrentSnackBar()
+          ..showSnackBar(
+            SnackBar(
+              content: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text(" Logging In..."),
+                  CircularProgressIndicator(),
+                ],
+              ),
+            ),
+          );
+      }
+
+      if (state.isSuccess) {
+        print("Success");
+        BlocProvider.of<AuthenticationBloc>(context).add(LoggedIn());
+      }
+    }, child: BlocBuilder<LoginBloc, LoginState>(
+      builder: (context, state) {
+        return SingleChildScrollView(
+          child: Container(
+            color: backgroundColor,
+            width: size.width,
+            height: size.height,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Center(
+                  child: Text(
+                    "Chill",
+                    style: TextStyle(
+                        fontSize: size.width * 0.2, color: Colors.white),
+                  ),
+                ),
+                Container(
+                  width: size.width * 0.8,
+                  child: Divider(
+                    height: size.height * 0.05,
+                    color: Colors.white,
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.all(size.height * 0.02),
+                  child: TextFormField(
+                    controller: _emailController,
+                    autovalidate: true,
+                    validator: (_) {
+                      return !state.isEmailValid ? "Invalid Email" : null;
+                    },
+                    decoration: InputDecoration(
+                      labelText: "Email",
+                      labelStyle: TextStyle(
+                          color: Colors.white, fontSize: size.height * 0.03),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white, width: 1.0),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white, width: 1.0),
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.all(size.height * 0.02),
+                  child: TextFormField(
+                    controller: _passwordController,
+                    autocorrect: false,
+                    obscureText: true,
+                    autovalidate: true,
+                    validator: (_) {
+                      return !state.isPasswordValid ? "Invalid Password" : null;
+                    },
+                    decoration: InputDecoration(
+                      labelText: "Password",
+                      labelStyle: TextStyle(
+                          color: Colors.white, fontSize: size.height * 0.03),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white, width: 1.0),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white, width: 1.0),
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.all(size.height * 0.02),
+                  child: Column(
+                    children: <Widget>[
+                      GestureDetector(
+                        onTap: isLoginButtonEnabled(state)
+                            ? _onFormSubmitted
+                            : null,
+                        child: Container(
+                          width: size.width * 0.8,
+                          height: size.height * 0.06,
+                          decoration: BoxDecoration(
+                            color: isLoginButtonEnabled(state)
+                                ? Colors.white
+                                : Colors.grey,
+                            borderRadius:
+                                BorderRadius.circular(size.height * 0.05),
+                          ),
+                          child: Center(
+                            child: Text(
+                              "Login",
+                              style: TextStyle(
+                                  fontSize: size.height * 0.025,
+                                  color: Colors.blue),
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: size.height * 0.02,
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return SignUp(
+                                  userRepository: _userRepository,
+                                );
+                              },
+                            ),
+                          );
+                        },
+                        child: Text(
+                          "Are you new? Get an Account",
+                          style: TextStyle(
+                              fontSize: size.height * 0.025,
+                              color: Colors.white),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    ));
   }
 }

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:meta/meta.dart';
 import 'package:tinder/repositories/user_repositories.dart';
 
 part 'authentication_event.dart';
@@ -9,7 +10,9 @@ part 'authentication_state.dart';
 
 class AuthenticationBloc
     extends Bloc<AuthenticationEvent, AuthenticationState> {
-  AuthenticationBloc(this._userRepository) : super(Uninitialised());
+  AuthenticationBloc({@required UserRepository userRepository})
+      : assert(userRepository != null),
+        _userRepository = userRepository, super(Uninitialised());
 
   final UserRepository _userRepository;
 

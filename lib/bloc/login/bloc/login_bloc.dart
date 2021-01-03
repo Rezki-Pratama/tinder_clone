@@ -13,17 +13,16 @@ part 'login_event.dart';
 part 'login_state.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
-
   UserRepository _userRepository;
 
   LoginBloc({@required UserRepository userRepository})
       : assert(userRepository != null),
-        _userRepository = userRepository, super(LoginState.empty());
+        _userRepository = userRepository,
+        super(LoginState.empty());
 
   @override
-  Stream<Transition<LoginEvent, LoginState>> transformEvents(
-      events, next) {
-    final nonDebounceStream = events.where((event){
+  Stream<Transition<LoginEvent, LoginState>> transformEvents(events, next) {
+    final nonDebounceStream = events.where((event) {
       return (event is! EmailChanged || event is! PasswordChanged);
     });
 
@@ -31,7 +30,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       return (event is EmailChanged || event is PasswordChanged);
     }).debounceTime(Duration(milliseconds: 300));
 
-    return super.transformEvents(nonDebounceStream.mergeWith([debounceStream]), next);
+    return super
+        .transformEvents(nonDebounceStream.mergeWith([debounceStream]), next);
   }
 
   @override
@@ -51,8 +51,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     }
   }
 
-
-   Stream<LoginState> _mapEmailChangedToState(String email) async* {
+  Stream<LoginState> _mapEmailChangedToState(String email) async* {
     yield state.update(
       isEmailValid: Validators.isValidEmail(email),
     );
@@ -66,8 +65,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     String email,
     String password,
   }) async* {
-    print('email :'+ email);
-    print('password :'+ password);
+    print('email :' + email);
+    print('password :' + password);
     yield LoginState.loading();
 
     try {
@@ -75,12 +74,11 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
       yield LoginState.success();
     } on FirebaseAuthException catch (e) {
-      print('FirebaseAuthException :'+ e.toString());
+      print('FirebaseAuthException :' + e.toString());
       LoginState.failure();
-    } on PlatformException  catch (e) {
-      print('PlatformException :'+ e.toString());
+    } on PlatformException catch (e) {
+      print('PlatformException :' + e.toString());
       LoginState.failure();
     }
   }
-
 }

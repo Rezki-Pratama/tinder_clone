@@ -97,110 +97,104 @@ class _SignUpFormState extends State<SignUpForm> {
         }
       },
       builder: (context, state) {
-          return SingleChildScrollView(
-            scrollDirection: Axis.vertical,
-            child: Container(
-              color: backgroundColor,
-              width: size.width,
-              height: size.height,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Center(
-                    child: Text(
-                      "Chill",
-                      style: TextStyle(
-                          fontSize: size.width * 0.2, color: Colors.white),
+        return SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: Container(
+            color: backgroundColor,
+            width: size.width,
+            height: size.height,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Center(
+                  child: Text(
+                    "Chill",
+                    style: TextStyle(
+                        fontSize: size.width * 0.2, color: Colors.white),
+                  ),
+                ),
+                Container(
+                  width: size.width * 0.8,
+                  child: Divider(
+                    height: size.height * 0.05,
+                    color: Colors.white,
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.all(size.height * 0.02),
+                  child: TextFormField(
+                    controller: _emailController,
+                    autovalidate: true,
+                    validator: (_) {
+                      return state.isEmailValid ? "Invalid Email" : null;
+                    },
+                    decoration: InputDecoration(
+                      labelText: "Email",
+                      labelStyle: TextStyle(
+                          color: Colors.white, fontSize: size.height * 0.03),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white, width: 1.0),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white, width: 1.0),
+                      ),
                     ),
                   ),
-                  Container(
-                    width: size.width * 0.8,
-                    child: Divider(
-                      height: size.height * 0.05,
-                      color: Colors.white,
+                ),
+                Padding(
+                  padding: EdgeInsets.all(size.height * 0.02),
+                  child: TextFormField(
+                    controller: _passwordController,
+                    autocorrect: false,
+                    obscureText: true,
+                    autovalidate: true,
+                    validator: (_) {
+                      return !state.isPasswordValid ? "Invalid Password" : null;
+                    },
+                    decoration: InputDecoration(
+                      labelText: "Password",
+                      labelStyle: TextStyle(
+                          color: Colors.white, fontSize: size.height * 0.03),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white, width: 1.0),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white, width: 1.0),
+                      ),
                     ),
                   ),
-                  Padding(
-                    padding: EdgeInsets.all(size.height * 0.02),
-                    child: TextFormField(
-                      controller: _emailController,
-                      validator: (_) {
-                        return !state.isEmailValid ? "Invalid Email" : null;
-                      },
-                      decoration: InputDecoration(
-                        labelText: "Email",
-                        labelStyle: TextStyle(
-                            color: Colors.white, fontSize: size.height * 0.03),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide:
-                              BorderSide(color: Colors.white, width: 1.0),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide:
-                              BorderSide(color: Colors.white, width: 1.0),
+                ),
+                Padding(
+                  padding: EdgeInsets.all(size.height * 0.02),
+                  child: GestureDetector(
+                    onTap:
+                        isSignUpButtonEnabled(state) ? _onFormSubmitted : null,
+                    child: Container(
+                      width: size.width * 0.8,
+                      height: size.height * 0.06,
+                      decoration: BoxDecoration(
+                        color: isSignUpButtonEnabled(state)
+                            ? Colors.white
+                            : Colors.grey,
+                        borderRadius: BorderRadius.circular(size.height * 0.05),
+                      ),
+                      child: Center(
+                        child: Text(
+                          "Sign Up",
+                          style: TextStyle(
+                              fontSize: size.height * 0.025,
+                              color: Colors.blue),
                         ),
                       ),
                     ),
                   ),
-                  Padding(
-                    padding: EdgeInsets.all(size.height * 0.02),
-                    child: TextFormField(
-                      controller: _passwordController,
-                      autocorrect: false,
-                      obscureText: true,
-                      validator: (_) {
-                        return !state.isPasswordValid
-                            ? "Invalid Password"
-                            : null;
-                      },
-                      decoration: InputDecoration(
-                        labelText: "Password",
-                        labelStyle: TextStyle(
-                            color: Colors.white, fontSize: size.height * 0.03),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide:
-                              BorderSide(color: Colors.white, width: 1.0),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide:
-                              BorderSide(color: Colors.white, width: 1.0),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(size.height * 0.02),
-                    child: GestureDetector(
-                      onTap: isSignUpButtonEnabled(state)
-                          ? _onFormSubmitted
-                          : null,
-                      child: Container(
-                        width: size.width * 0.8,
-                        height: size.height * 0.06,
-                        decoration: BoxDecoration(
-                          color: isSignUpButtonEnabled(state)
-                              ? Colors.white
-                              : Colors.grey,
-                          borderRadius:
-                              BorderRadius.circular(size.height * 0.05),
-                        ),
-                        child: Center(
-                          child: Text(
-                            "Sign Up",
-                            style: TextStyle(
-                                fontSize: size.height * 0.025,
-                                color: Colors.blue),
-                          ),
-                        ),
-                      ),
-                    ),
-                  )
-                ],
-              ),
+                )
+              ],
             ),
-          );
-        },
+          ),
+        );
+      },
     );
   }
 
