@@ -68,13 +68,13 @@ class Tabs extends StatelessWidget {
                               ),
                             ),
                           ],
-                          borderRadius: BorderRadius.circular(50),
+                          borderRadius: BorderRadius.circular(20),
                           color: colorRed),
                       tabs: <Widget>[
                         Tab(
                           child: Container(
                             decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(50),
+                                borderRadius: BorderRadius.circular(20),
                                 // color: colorRed,
                                 border: Border.all(color: Colors.white, width: 2)),
                             child: Align(
@@ -86,7 +86,7 @@ class Tabs extends StatelessWidget {
                         Tab(
                           child: Container(
                             decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(50),
+                                borderRadius: BorderRadius.circular(20),
                                 // color: Colors.white,
                                 border: Border.all(color: Colors.white, width: 2)),
                             child: Align(

@@ -179,14 +179,16 @@ class _ProfileFormState extends State<ProfileForm> {
                         minTime: DateTime(1900, 1, 1),
                         maxTime: DateTime(DateTime.now().year - 19, 1, 1),
                         theme: DatePickerTheme(
-                            headerColor: Colors.orange,
-                            backgroundColor: Colors.blue,
+                            headerColor: Colors.white,
+                            backgroundColor: colorRed,
                             itemStyle: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 18),
+                            cancelStyle:
+                                TextStyle(color: colorRed, fontSize: 16, fontWeight: FontWeight.bold),
                             doneStyle:
-                                TextStyle(color: Colors.white, fontSize: 16)),
+                                TextStyle(color: colorRed, fontSize: 16, fontWeight: FontWeight.bold)),
                         onConfirm: (date) {
                           setState(() {
                             age = date;
@@ -213,7 +215,7 @@ class _ProfileFormState extends State<ProfileForm> {
                                   age == null
                                       ? 'Enter your birthday'
                                       : formatDate(
-                                          age, [dd, '-', M, '-', yyyy]),
+                                          age, [dd, '-', MM, '-', yyyy]),
                                   style: TextStyle(
                                       color: colorRed,
                                       fontSize: size.height * 0.02),
@@ -296,6 +298,7 @@ class _ProfileFormState extends State<ProfileForm> {
                     padding: EdgeInsets.all(size.height * 0.02),
                     child: GestureDetector(
                         onTap: () {
+                          print(isButtonEnabled(state));
                           if (isButtonEnabled(state)) {
                             _onSubmitted();
                           } else {}
@@ -330,6 +333,7 @@ Widget textFieldWidget(controller, text, size) {
         padding: EdgeInsets.only(left: size.height * 0.03),
         child: TextField(
           controller: controller,
+          style: TextStyle(color: colorRed),
           decoration: InputDecoration(
             contentPadding: EdgeInsets.symmetric(vertical: -10),
             border:
