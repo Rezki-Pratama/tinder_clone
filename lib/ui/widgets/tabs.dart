@@ -6,7 +6,6 @@ import 'package:tinder/ui/pages/messages.dart';
 import 'package:tinder/ui/pages/search.dart';
 import 'package:tinder/ui/utilities.dart';
 
-
 class Tabs extends StatelessWidget {
   final userId;
 
@@ -14,7 +13,6 @@ class Tabs extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
     List<Widget> pages = [
       Search(
         userId: userId,
@@ -29,18 +27,16 @@ class Tabs extends StatelessWidget {
 
     return Theme(
       data: ThemeData(
-        primaryColor: backgroundColor,
-        accentColor: Colors.white,
+        primaryColor: colorRed,
       ),
       child: DefaultTabController(
         length: 3,
         child: Scaffold(
           appBar: AppBar(
-            centerTitle: true,
-            title: Text(
-              "Chill",
-              style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold),
-            ),
+            elevation: 0,
+            title: Container(
+              width: 35,
+              child: Image.asset('assets/LinjanganLogo.png')),
             actions: <Widget>[
               IconButton(
                 icon: Icon(Icons.exit_to_app),
@@ -58,10 +54,49 @@ class Tabs extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     TabBar(
+                      labelColor: colorRed,
+                      unselectedLabelColor: Colors.white,
+                      indicatorSize: TabBarIndicatorSize.label,
+                      indicator: BoxDecoration(
+                          borderRadius: BorderRadius.circular(50),
+                          color: Colors.white),
                       tabs: <Widget>[
-                        Tab(icon: Icon(Icons.search)),
-                        Tab(icon: Icon(Icons.people)),
-                        Tab(icon: Icon(Icons.message)),
+                        Tab(
+                          child: Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(50),
+                                border: Border.all(
+                                    color: colorRed, width: 1)),
+                            child: Align(
+                              alignment: Alignment.center,
+                              child: Icon(Icons.search),
+                            ),
+                          ),
+                        ),
+                        Tab(
+                          child: Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(50),
+                                border: Border.all(
+                                    color: colorRed, width: 1)),
+                            child: Align(
+                              alignment: Alignment.center,
+                              child: Icon(Icons.people),
+                            ),
+                          ),
+                        ),
+                        Tab(
+                          child: Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(50),
+                                border: Border.all(
+                                    color: colorRed, width: 1)),
+                            child: Align(
+                              alignment: Alignment.center,
+                              child: Icon(Icons.message),
+                            ),
+                          ),
+                        ),
                       ],
                     )
                   ],

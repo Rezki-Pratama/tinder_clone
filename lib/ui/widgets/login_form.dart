@@ -6,6 +6,7 @@ import 'package:tinder/repositories/user_repositories.dart';
 import 'package:tinder/ui/pages/sign_up.dart';
 import 'package:tinder/ui/utilities.dart';
 import 'package:tinder/ui/widgets/custom_button.dart';
+import 'package:tinder/ui/widgets/custom_textfield.dart';
 
 class LoginForm extends StatefulWidget {
   final UserRepository _userRepository;
@@ -130,76 +131,31 @@ class _LoginFormState extends State<LoginForm> {
                       fontSize: size.width * 0.1, color: Colors.white),
                 ),
                 Padding(
-                  padding: EdgeInsets.all(size.height * 0.03),
-                  child: Material(
-                    color: Colors.white,
-                    elevation: 20,
-                    borderRadius: BorderRadius.circular(size.height * 0.03),
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(
-                          vertical: size.height * 0.01,
-                          horizontal: size.height * 0.02),
-                      child: TextFormField(
-                        controller: _emailController,
-                        autovalidate: true,
-                        validator: (_) {
-                          return !state.isEmailValid ? "Invalid Email" : null;
-                        },
-                        style: TextStyle(color: colorRed),
-                        decoration: InputDecoration(
-                          contentPadding: EdgeInsets.symmetric(vertical: -10),
-                          border: UnderlineInputBorder(
-                              borderSide: BorderSide(color: colorRed)),
-                          focusedBorder:
-                              UnderlineInputBorder(borderSide: BorderSide.none),
-                          enabledBorder:
-                              UnderlineInputBorder(borderSide: BorderSide.none),
-                          hintText: "Email",
-                          errorStyle: TextStyle(color: colorRed),
-                          hintStyle: TextStyle(
-                              color: colorRed, fontSize: size.height * 0.02),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+                    padding: EdgeInsets.all(size.height * 0.03),
+                    child: CustomTextField(
+                      controller: _emailController,
+                      obscureText: false,
+                      autoCorrect: false,
+                      validator: (_) {
+                        return !state.isEmailValid ? "Invalid Email" : null;
+                      },
+                      size: size,
+                      hintText: 'Email',
+                    )),
                 Padding(
-                  padding: EdgeInsets.all(size.height * 0.03),
-                  child: Material(
-                    color: Colors.white,
-                    elevation: 20,
-                    borderRadius: BorderRadius.circular(size.height * 0.03),
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(
-                          vertical: size.height * 0.01,
-                          horizontal: size.height * 0.02),
-                      child: TextFormField(
-                        controller: _passwordController,
-                        autocorrect: false,
-                        obscureText: true,
-                        autovalidate: true,
-                        validator: (_) {
-                          return !state.isPasswordValid
-                              ? "Invalid Password"
-                              : null;
-                        },
-                        style: TextStyle(color: colorRed),
-                        decoration: InputDecoration(
-                          border: UnderlineInputBorder(
-                              borderSide: BorderSide(color: colorRed)),
-                          focusedBorder:
-                              UnderlineInputBorder(borderSide: BorderSide.none),
-                          enabledBorder:
-                              UnderlineInputBorder(borderSide: BorderSide.none),
-                          hintText: "Password",
-                          errorStyle: TextStyle(color: colorRed),
-                          hintStyle: TextStyle(
-                              color: colorRed, fontSize: size.height * 0.02),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+                    padding: EdgeInsets.all(size.height * 0.03),
+                    child: CustomTextField(
+                      controller: _passwordController,
+                      validator: (_) {
+                        return !state.isPasswordValid
+                            ? "Invalid Password"
+                            : null;
+                      },
+                      autoCorrect: false,
+                      obscureText: true,
+                      size: size,
+                      hintText: 'Password',
+                    )),
                 Padding(
                   padding: EdgeInsets.all(size.height * 0.03),
                   child: Column(
