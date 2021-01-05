@@ -75,6 +75,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       yield LoginState.success();
     } on FirebaseAuthException catch (e) {
       print('FirebaseAuthException :' + e.toString());
+      
       LoginState.failure();
     } on PlatformException catch (e) {
       print('PlatformException :' + e.toString());

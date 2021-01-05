@@ -18,10 +18,10 @@ class SignUp extends StatelessWidget {
       appBar: AppBar(
         title: Text(
           "Sign Up",
-          style: TextStyle(fontSize: 36.0),
+          style: TextStyle(fontSize: 30.0),
         ),
         centerTitle: true,
-        backgroundColor: backgroundColor,
+        backgroundColor: colorRed,
         elevation: 0,
       ),
       body: BlocProvider<SignUpBloc>(

@@ -100,67 +100,79 @@ class _SignUpFormState extends State<SignUpForm> {
         return SingleChildScrollView(
           scrollDirection: Axis.vertical,
           child: Container(
-            color: backgroundColor,
+            color: colorRed,
             width: size.width,
             height: size.height,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Center(
-                  child: Text(
-                    "Chill",
-                    style: TextStyle(
-                        fontSize: size.width * 0.2, color: Colors.white),
-                  ),
-                ),
-                Container(
-                  width: size.width * 0.8,
-                  child: Divider(
-                    height: size.height * 0.05,
-                    color: Colors.white,
-                  ),
-                ),
                 Padding(
                   padding: EdgeInsets.all(size.height * 0.02),
-                  child: TextFormField(
-                    controller: _emailController,
-                    autovalidate: true,
-                    validator: (_) {
-                      return state.isEmailValid ? "Invalid Email" : null;
-                    },
-                    decoration: InputDecoration(
-                      labelText: "Email",
-                      labelStyle: TextStyle(
-                          color: Colors.white, fontSize: size.height * 0.03),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.white, width: 1.0),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.white, width: 1.0),
+                  child: Material(
+                    color: Colors.white,
+                    elevation: 20,
+                    borderRadius: BorderRadius.circular(size.height * 0.03),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                          vertical: size.height * 0.01,
+                          horizontal: size.height * 0.02),
+                      child: TextFormField(
+                        controller: _emailController,
+                        autovalidate: true,
+                        validator: (_) {
+                          return state.isEmailValid ? "Invalid Email" : null;
+                        },
+                        style: TextStyle(color: colorRed),
+                        decoration: InputDecoration(
+                          hintText: "Email",
+                          border: UnderlineInputBorder(
+                              borderSide: BorderSide(color: colorRed)),
+                          focusedBorder:
+                              UnderlineInputBorder(borderSide: BorderSide.none),
+                          enabledBorder:
+                              UnderlineInputBorder(borderSide: BorderSide.none),
+                          errorStyle: TextStyle(color: colorRed),
+                          hintStyle: TextStyle(
+                              color: colorRed, fontSize: size.height * 0.02),
+                        ),
                       ),
                     ),
                   ),
                 ),
                 Padding(
                   padding: EdgeInsets.all(size.height * 0.02),
-                  child: TextFormField(
-                    controller: _passwordController,
-                    autocorrect: false,
-                    obscureText: true,
-                    autovalidate: true,
-                    validator: (_) {
-                      return !state.isPasswordValid ? "Invalid Password" : null;
-                    },
-                    decoration: InputDecoration(
-                      labelText: "Password",
-                      labelStyle: TextStyle(
-                          color: Colors.white, fontSize: size.height * 0.03),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.white, width: 1.0),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.white, width: 1.0),
+                  child: Material(
+                    color: Colors.white,
+                    elevation: 20,
+                    borderRadius: BorderRadius.circular(size.height * 0.03),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                          vertical: size.height * 0.01,
+                          horizontal: size.height * 0.02),
+                      child: TextFormField(
+                        controller: _passwordController,
+                        autocorrect: false,
+                        obscureText: true,
+                        autovalidate: true,
+                        validator: (_) {
+                          return !state.isPasswordValid
+                              ? "Invalid Password"
+                              : null;
+                        },
+                        style: TextStyle(color: colorRed),
+                        decoration: InputDecoration(
+                          hintText: "Password",
+                          border: UnderlineInputBorder(
+                              borderSide: BorderSide(color: colorRed)),
+                          focusedBorder:
+                              UnderlineInputBorder(borderSide: BorderSide.none),
+                          enabledBorder:
+                              UnderlineInputBorder(borderSide: BorderSide.none),
+                          errorStyle: TextStyle(color: colorRed),
+                          hintStyle: TextStyle(
+                              color: colorRed, fontSize: size.height * 0.02),
+                        ),
                       ),
                     ),
                   ),
@@ -170,26 +182,80 @@ class _SignUpFormState extends State<SignUpForm> {
                   child: GestureDetector(
                     onTap:
                         isSignUpButtonEnabled(state) ? _onFormSubmitted : null,
-                    child: Container(
-                      width: size.width * 0.8,
-                      height: size.height * 0.06,
-                      decoration: BoxDecoration(
-                        color: isSignUpButtonEnabled(state)
-                            ? Colors.white
-                            : Colors.grey,
-                        borderRadius: BorderRadius.circular(size.height * 0.05),
-                      ),
-                      child: Center(
-                        child: Text(
-                          "Sign Up",
-                          style: TextStyle(
-                              fontSize: size.height * 0.025,
-                              color: Colors.blue),
+                    child: Material(
+                      color: colorRed,
+                      elevation: 20,
+                      borderRadius: BorderRadius.circular(size.height * 0.03),
+                      child: Container(
+                        height: size.height * 0.09,
+                        decoration: BoxDecoration(
+                          color: isSignUpButtonEnabled(state)
+                              ? Colors.white
+                              : colorRed,
+                          borderRadius:
+                              BorderRadius.circular(size.height * 0.03),
+                        ),
+                        child: Center(
+                          child: Text(
+                            "Sign Up",
+                            style: TextStyle(
+                                fontSize: size.height * 0.040,
+                                color: isSignUpButtonEnabled(state)
+                                    ? colorRed
+                                    : Colors.white,fontWeight: FontWeight.bold),
+                          ),
                         ),
                       ),
                     ),
                   ),
-                )
+                ),
+                Padding(
+                  padding: EdgeInsets.all(size.height * 0.03),
+                child: Text('Or' ,style: TextStyle(color: Colors.white, fontSize: size.height * 0.025))
+                ),
+                Padding(
+                  padding: EdgeInsets.all(size.height * 0.02),
+                child: Material(
+                  color: Colors.white,
+                      elevation: 20,
+                      borderRadius: BorderRadius.circular(size.height * 0.03),
+                      child: Container(
+                        height: size.height * 0.09,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              width: size.width * 0.10,
+                              child: Image.asset('assets/GoogleLogo.png')),
+                            SizedBox(width: size.width * 0.03),
+                            Text('Login with Google',style: TextStyle(color: colorRed, fontSize: size.height * 0.025,fontWeight: FontWeight.bold))
+                          ],
+                        ),
+                      ),
+                )),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: size.height * 0.02),
+                child: Material(
+                  color: Colors.white,
+                      elevation: 20,
+                      borderRadius: BorderRadius.circular(size.height * 0.03),
+                      child: Container(
+                        height: size.height * 0.09,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              width: size.width * 0.10,
+                              child: Image.asset('assets/FacebookLogo.png')),
+                            SizedBox(width: size.width * 0.03),
+                            Text('Login with Facebook',style: TextStyle(color: colorRed, fontSize: size.height * 0.025,fontWeight: FontWeight.bold))
+                          ],
+                        ),
+                      ),
+                )),
+                SizedBox(height: size.height * 0.10)
+                
+
               ],
             ),
           ),

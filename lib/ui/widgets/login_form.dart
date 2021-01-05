@@ -5,6 +5,7 @@ import 'package:tinder/bloc/login/bloc/login_bloc.dart';
 import 'package:tinder/repositories/user_repositories.dart';
 import 'package:tinder/ui/pages/sign_up.dart';
 import 'package:tinder/ui/utilities.dart';
+import 'package:tinder/ui/widgets/custom_button.dart';
 
 class LoginForm extends StatefulWidget {
   final UserRepository _userRepository;
@@ -113,101 +114,112 @@ class _LoginFormState extends State<LoginForm> {
       builder: (context, state) {
         return SingleChildScrollView(
           child: Container(
-            color: backgroundColor,
+            color: colorRed,
             width: size.width,
             height: size.height,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Center(
-                  child: Text(
-                    "Chill",
-                    style: TextStyle(
-                        fontSize: size.width * 0.2, color: Colors.white),
-                  ),
-                ),
                 Container(
-                  width: size.width * 0.8,
-                  child: Divider(
-                    height: size.height * 0.05,
+                    width: size.width / 2,
+                    child: Image.asset('assets/LinjanganLogo.png')),
+                Text(
+                  "Linjangan",
+                  style: TextStyle(
+                      fontSize: size.width * 0.1, color: Colors.white),
+                ),
+                Padding(
+                  padding: EdgeInsets.all(size.height * 0.03),
+                  child: Material(
                     color: Colors.white,
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.all(size.height * 0.02),
-                  child: TextFormField(
-                    controller: _emailController,
-                    autovalidate: true,
-                    validator: (_) {
-                      return !state.isEmailValid ? "Invalid Email" : null;
-                    },
-                    decoration: InputDecoration(
-                      labelText: "Email",
-                      labelStyle: TextStyle(
-                          color: Colors.white, fontSize: size.height * 0.03),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.white, width: 1.0),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.white, width: 1.0),
-                      ),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.all(size.height * 0.02),
-                  child: TextFormField(
-                    controller: _passwordController,
-                    autocorrect: false,
-                    obscureText: true,
-                    autovalidate: true,
-                    validator: (_) {
-                      return !state.isPasswordValid ? "Invalid Password" : null;
-                    },
-                    decoration: InputDecoration(
-                      labelText: "Password",
-                      labelStyle: TextStyle(
-                          color: Colors.white, fontSize: size.height * 0.03),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.white, width: 1.0),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.white, width: 1.0),
+                    elevation: 20,
+                    borderRadius: BorderRadius.circular(size.height * 0.03),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                          vertical: size.height * 0.01,
+                          horizontal: size.height * 0.02),
+                      child: TextFormField(
+                        controller: _emailController,
+                        autovalidate: true,
+                        validator: (_) {
+                          return !state.isEmailValid ? "Invalid Email" : null;
+                        },
+                        style: TextStyle(color: colorRed),
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.symmetric(vertical: -10),
+                          border: UnderlineInputBorder(
+                              borderSide: BorderSide(color: colorRed)),
+                          focusedBorder:
+                              UnderlineInputBorder(borderSide: BorderSide.none),
+                          enabledBorder:
+                              UnderlineInputBorder(borderSide: BorderSide.none),
+                          hintText: "Email",
+                          errorStyle: TextStyle(color: colorRed),
+                          hintStyle: TextStyle(
+                              color: colorRed, fontSize: size.height * 0.02),
+                        ),
                       ),
                     ),
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.all(size.height * 0.02),
+                  padding: EdgeInsets.all(size.height * 0.03),
+                  child: Material(
+                    color: Colors.white,
+                    elevation: 20,
+                    borderRadius: BorderRadius.circular(size.height * 0.03),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                          vertical: size.height * 0.01,
+                          horizontal: size.height * 0.02),
+                      child: TextFormField(
+                        controller: _passwordController,
+                        autocorrect: false,
+                        obscureText: true,
+                        autovalidate: true,
+                        validator: (_) {
+                          return !state.isPasswordValid
+                              ? "Invalid Password"
+                              : null;
+                        },
+                        style: TextStyle(color: colorRed),
+                        decoration: InputDecoration(
+                          border: UnderlineInputBorder(
+                              borderSide: BorderSide(color: colorRed)),
+                          focusedBorder:
+                              UnderlineInputBorder(borderSide: BorderSide.none),
+                          enabledBorder:
+                              UnderlineInputBorder(borderSide: BorderSide.none),
+                          hintText: "Password",
+                          errorStyle: TextStyle(color: colorRed),
+                          hintStyle: TextStyle(
+                              color: colorRed, fontSize: size.height * 0.02),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.all(size.height * 0.03),
                   child: Column(
                     children: <Widget>[
                       GestureDetector(
-                        onTap: isLoginButtonEnabled(state)
-                            ? _onFormSubmitted
-                            : null,
-                        child: Container(
-                          width: size.width * 0.8,
-                          height: size.height * 0.06,
-                          decoration: BoxDecoration(
-                            color: isLoginButtonEnabled(state)
+                          onTap: isLoginButtonEnabled(state)
+                              ? _onFormSubmitted
+                              : null,
+                          child: CustomButton(
+                            text: 'LOGIN',
+                            color: colorRed,
+                            boxDecorationColor: isLoginButtonEnabled(state)
                                 ? Colors.white
-                                : Colors.grey,
-                            borderRadius:
-                                BorderRadius.circular(size.height * 0.05),
-                          ),
-                          child: Center(
-                            child: Text(
-                              "Login",
-                              style: TextStyle(
-                                  fontSize: size.height * 0.025,
-                                  color: Colors.blue),
-                            ),
-                          ),
-                        ),
-                      ),
+                                : colorRed,
+                            textColor: isLoginButtonEnabled(state)
+                                ? colorRed
+                                : Colors.white,
+                          )),
                       SizedBox(
-                        height: size.height * 0.02,
+                        height: size.height * 0.04,
                       ),
                       GestureDetector(
                         onTap: () {
