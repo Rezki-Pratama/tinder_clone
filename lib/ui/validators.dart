@@ -11,7 +11,7 @@ class Validators {
   }
 
   static isValidPassword(String password) {
-    if (password.length > 4) {
+    if (password.length > 7) {
       return true;
     } else {
       return false;

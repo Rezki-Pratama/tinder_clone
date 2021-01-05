@@ -4,6 +4,7 @@ import 'package:tinder/bloc/authentication/bloc/authentication_bloc.dart';
 import 'package:tinder/bloc/sign_up/bloc/signup_bloc.dart';
 import 'package:tinder/repositories/user_repositories.dart';
 import 'package:tinder/ui/utilities.dart';
+import 'package:tinder/ui/widgets/custom_button.dart';
 
 class SignUpForm extends StatefulWidget {
   final UserRepository _userRepository;
@@ -103,13 +104,13 @@ class _SignUpFormState extends State<SignUpForm> {
             color: colorRed,
             width: size.width,
             height: size.height,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.all(size.height * 0.02),
-                  child: Material(
+            child: Padding(
+              padding: EdgeInsets.all(size.height * 0.02),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Material(
                     color: Colors.white,
                     elevation: 20,
                     borderRadius: BorderRadius.circular(size.height * 0.03),
@@ -121,7 +122,7 @@ class _SignUpFormState extends State<SignUpForm> {
                         controller: _emailController,
                         autovalidate: true,
                         validator: (_) {
-                          return state.isEmailValid ? "Invalid Email" : null;
+                          return !state.isEmailValid ? "Invalid Email" : null;
                         },
                         style: TextStyle(color: colorRed),
                         decoration: InputDecoration(
@@ -139,10 +140,8 @@ class _SignUpFormState extends State<SignUpForm> {
                       ),
                     ),
                   ),
-                ),
-                Padding(
-                  padding: EdgeInsets.all(size.height * 0.02),
-                  child: Material(
+                  SizedBox(height: size.height * 0.02),
+                  Material(
                     color: Colors.white,
                     elevation: 20,
                     borderRadius: BorderRadius.circular(size.height * 0.03),
@@ -176,87 +175,75 @@ class _SignUpFormState extends State<SignUpForm> {
                       ),
                     ),
                   ),
-                ),
-                Padding(
-                  padding: EdgeInsets.all(size.height * 0.02),
-                  child: GestureDetector(
-                    onTap:
-                        isSignUpButtonEnabled(state) ? _onFormSubmitted : null,
-                    child: Material(
-                      color: colorRed,
-                      elevation: 20,
-                      borderRadius: BorderRadius.circular(size.height * 0.03),
-                      child: Container(
-                        height: size.height * 0.09,
-                        decoration: BoxDecoration(
-                          color: isSignUpButtonEnabled(state)
-                              ? Colors.white
-                              : colorRed,
-                          borderRadius:
-                              BorderRadius.circular(size.height * 0.03),
-                        ),
-                        child: Center(
-                          child: Text(
-                            "Sign Up",
-                            style: TextStyle(
-                                fontSize: size.height * 0.040,
-                                color: isSignUpButtonEnabled(state)
-                                    ? colorRed
-                                    : Colors.white,fontWeight: FontWeight.bold),
-                          ),
-                        ),
+                  SizedBox(height: size.height * 0.03),
+                  GestureDetector(
+                      onTap: isSignUpButtonEnabled(state)
+                          ? _onFormSubmitted
+                          : null,
+                      child: CustomButton(
+                        text: 'SIGN UP',
+                        color: colorRed,
+                        boxDecorationColor: isSignUpButtonEnabled(state)
+                            ? Colors.white
+                            : colorRed,
+                        textColor: isSignUpButtonEnabled(state)
+                            ? colorRed
+                            : Colors.white,
+                      )),
+                      SizedBox(height: size.height * 0.03),
+                  Text('Or',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: size.height * 0.025)),
+                          SizedBox(height: size.height * 0.03),
+                  Material(
+                    color: Colors.white,
+                    elevation: 20,
+                    borderRadius: BorderRadius.circular(size.height * 0.03),
+                    child: Container(
+                      height: size.height * 0.09,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                              width: size.width * 0.10,
+                              child: Image.asset('assets/GoogleLogo.png')),
+                          SizedBox(width: size.width * 0.03),
+                          Text('Login with Google',
+                              style: TextStyle(
+                                  color: colorRed,
+                                  fontSize: size.height * 0.025,
+                                  fontWeight: FontWeight.bold))
+                        ],
                       ),
                     ),
                   ),
-                ),
-                Padding(
-                  padding: EdgeInsets.all(size.height * 0.03),
-                child: Text('Or' ,style: TextStyle(color: Colors.white, fontSize: size.height * 0.025))
-                ),
-                Padding(
-                  padding: EdgeInsets.all(size.height * 0.02),
-                child: Material(
-                  color: Colors.white,
-                      elevation: 20,
-                      borderRadius: BorderRadius.circular(size.height * 0.03),
-                      child: Container(
-                        height: size.height * 0.09,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                              width: size.width * 0.10,
-                              child: Image.asset('assets/GoogleLogo.png')),
-                            SizedBox(width: size.width * 0.03),
-                            Text('Login with Google',style: TextStyle(color: colorRed, fontSize: size.height * 0.025,fontWeight: FontWeight.bold))
-                          ],
-                        ),
-                      ),
-                )),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: size.height * 0.02),
-                child: Material(
-                  color: Colors.white,
-                      elevation: 20,
-                      borderRadius: BorderRadius.circular(size.height * 0.03),
-                      child: Container(
-                        height: size.height * 0.09,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
+                  SizedBox(height: size.height * 0.02),
+                  Material(
+                    color: Colors.white,
+                    elevation: 20,
+                    borderRadius: BorderRadius.circular(size.height * 0.03),
+                    child: Container(
+                      height: size.height * 0.09,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
                               width: size.width * 0.10,
                               child: Image.asset('assets/FacebookLogo.png')),
-                            SizedBox(width: size.width * 0.03),
-                            Text('Login with Facebook',style: TextStyle(color: colorRed, fontSize: size.height * 0.025,fontWeight: FontWeight.bold))
-                          ],
-                        ),
+                          SizedBox(width: size.width * 0.03),
+                          Text('Login with Facebook',
+                              style: TextStyle(
+                                  color: colorRed,
+                                  fontSize: size.height * 0.025,
+                                  fontWeight: FontWeight.bold))
+                        ],
                       ),
-                )),
-                SizedBox(height: size.height * 0.10)
-                
-
-              ],
+                    ),
+                  ),
+                  SizedBox(height: size.height * 0.10)
+                ],
+              ),
             ),
           ),
         );

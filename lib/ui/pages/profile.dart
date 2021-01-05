@@ -17,11 +17,21 @@ class Profile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        title: Text("Profile Setup"),
-        centerTitle: true,
-        backgroundColor: backgroundColor,
+        actions: [
+          Center(
+            child: Padding(
+              padding: EdgeInsets.only(right: size.width * 0.03),
+              child: Text(
+                "Profile",
+                style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold),
+              ),
+            ),
+          )
+        ],
+        backgroundColor: colorRed,
         elevation: 0,
       ),
       body: BlocProvider<ProfileBloc>(

@@ -14,20 +14,25 @@ class SignUp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          "Sign Up",
-          style: TextStyle(fontSize: 30.0),
-        ),
-        centerTitle: true,
+        actions: [
+          Center(
+            child: Padding(
+              padding: EdgeInsets.only(right: size.width * 0.03),
+              child: Text(
+                "Sign Up",
+                style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold),
+              ),
+            ),
+          )
+        ],
         backgroundColor: colorRed,
         elevation: 0,
       ),
       body: BlocProvider<SignUpBloc>(
-        create: (context) => SignUpBloc(
-          _userRepository
-        ),
+        create: (context) => SignUpBloc(_userRepository),
         child: SignUpForm(
           userRepository: _userRepository,
         ),

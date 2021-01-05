@@ -234,7 +234,7 @@ class _LoginFormState extends State<LoginForm> {
                           );
                         },
                         child: Text(
-                          "Are you new? Get an Account",
+                          "Are you new ? Get an Account",
                           style: TextStyle(
                               fontSize: size.height * 0.025,
                               color: Colors.white),

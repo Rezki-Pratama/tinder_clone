@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:file_picker/file_picker.dart';
+import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
@@ -12,6 +12,7 @@ import 'package:tinder/bloc/authentication/bloc/authentication_bloc.dart';
 import 'package:tinder/bloc/profile/bloc/profile_bloc.dart';
 import 'package:tinder/repositories/user_repositories.dart';
 import 'package:tinder/ui/utilities.dart';
+import 'package:tinder/ui/widgets/custom_button.dart';
 import 'package:tinder/ui/widgets/gender.dart';
 
 class ProfileForm extends StatefulWidget {
@@ -142,15 +143,18 @@ class _ProfileFormState extends State<ProfileForm> {
           return SingleChildScrollView(
             scrollDirection: Axis.vertical,
             child: Container(
-              color: backgroundColor,
+              color: colorRed,
               width: size.width,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
+                  SizedBox(
+                    height: size.height * 0.03,
+                  ),
                   Container(
                     width: size.width,
                     child: CircleAvatar(
-                      radius: size.width * 0.3,
+                      radius: size.width * 0.2,
                       backgroundColor: Colors.transparent,
                       child: photo == null
                           ? GestureDetector(
@@ -191,10 +195,36 @@ class _ProfileFormState extends State<ProfileForm> {
                         },
                       );
                     },
-                    child: Text(
-                      "Enter Birthday",
-                      style: TextStyle(
-                          color: Colors.white, fontSize: size.width * 0.09),
+                    child: Padding(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: size.height * 0.02),
+                      child: Material(
+                        color: Colors.white,
+                        elevation: 20,
+                        borderRadius: BorderRadius.circular(size.height * 0.03),
+                        child: Container(
+                          width: size.width,
+                          child: Padding(
+                            padding: EdgeInsets.all(size.height * 0.02),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  age == null
+                                      ? 'Enter your birthday'
+                                      : formatDate(
+                                          age, [dd, '-', M, '-', yyyy]),
+                                  style: TextStyle(
+                                      color: colorRed,
+                                      fontSize: size.height * 0.02),
+                                ),
+                                Icon(FontAwesomeIcons.calendarAlt,
+                                    color: colorRed),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                   SizedBox(
@@ -207,13 +237,13 @@ class _ProfileFormState extends State<ProfileForm> {
                         padding: EdgeInsets.symmetric(
                             horizontal: size.height * 0.02),
                         child: Text(
-                          "You Are",
+                          "Gender",
                           style: TextStyle(
-                              color: Colors.white, fontSize: size.width * 0.09),
+                              color: Colors.white,
+                              fontSize: size.height * 0.025),
                         ),
                       ),
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: <Widget>[
                           genderWidget(
                               FontAwesomeIcons.venus, "Female", size, gender,
@@ -228,19 +258,6 @@ class _ProfileFormState extends State<ProfileForm> {
                               gender = "Male";
                             });
                           }),
-                          genderWidget(
-                            FontAwesomeIcons.transgender,
-                            "Transgender",
-                            size,
-                            gender,
-                            () {
-                              setState(
-                                () {
-                                  gender = "Transgender";
-                                },
-                              );
-                            },
-                          ),
                         ],
                       ),
                       SizedBox(
@@ -250,13 +267,13 @@ class _ProfileFormState extends State<ProfileForm> {
                         padding: EdgeInsets.symmetric(
                             horizontal: size.height * 0.02),
                         child: Text(
-                          "Looking For",
+                          "Interested",
                           style: TextStyle(
-                              color: Colors.white, fontSize: size.width * 0.09),
+                              color: Colors.white,
+                              fontSize: size.height * 0.025),
                         ),
                       ),
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: <Widget>[
                           genderWidget(FontAwesomeIcons.venus, "Female", size,
                               interestedIn, () {
@@ -271,50 +288,26 @@ class _ProfileFormState extends State<ProfileForm> {
                               interestedIn = "Male";
                             });
                           }),
-                          genderWidget(
-                            FontAwesomeIcons.transgender,
-                            "Transgender",
-                            size,
-                            interestedIn,
-                            () {
-                              setState(
-                                () {
-                                  interestedIn = "Transgender";
-                                },
-                              );
-                            },
-                          ),
                         ],
                       ),
                     ],
                   ),
                   Padding(
-                    padding: EdgeInsets.symmetric(vertical: size.height * 0.02),
+                    padding: EdgeInsets.all(size.height * 0.02),
                     child: GestureDetector(
-                      onTap: () {
-                        if (isButtonEnabled(state)) {
-                          _onSubmitted();
-                        } else {}
-                      },
-                      child: Container(
-                        width: size.width * 0.8,
-                        height: size.height * 0.06,
-                        decoration: BoxDecoration(
-                          color: isButtonEnabled(state)
-                              ? Colors.white
-                              : Colors.grey,
-                          borderRadius:
-                              BorderRadius.circular(size.height * 0.05),
-                        ),
-                        child: Center(
-                            child: Text(
-                          "Save",
-                          style: TextStyle(
-                              fontSize: size.height * 0.025,
-                              color: Colors.blue),
+                        onTap: () {
+                          if (isButtonEnabled(state)) {
+                            _onSubmitted();
+                          } else {}
+                        },
+                        child: CustomButton(
+                          text: 'SAVE',
+                          color: colorRed,
+                          boxDecorationColor:
+                              isButtonEnabled(state) ? Colors.white : colorRed,
+                          textColor:
+                              isButtonEnabled(state) ? colorRed : Colors.white,
                         )),
-                      ),
-                    ),
                   )
                 ],
               ),
@@ -329,17 +322,24 @@ class _ProfileFormState extends State<ProfileForm> {
 Widget textFieldWidget(controller, text, size) {
   return Padding(
     padding: EdgeInsets.all(size.height * 0.02),
-    child: TextField(
-      controller: controller,
-      decoration: InputDecoration(
-        labelText: text,
-        labelStyle:
-            TextStyle(color: Colors.white, fontSize: size.height * 0.03),
-        focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.white, width: 1.0),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.white, width: 1.0),
+    child: Material(
+      color: Colors.white,
+      elevation: 20,
+      borderRadius: BorderRadius.circular(size.height * 0.03),
+      child: Padding(
+        padding: EdgeInsets.only(left: size.height * 0.03),
+        child: TextField(
+          controller: controller,
+          decoration: InputDecoration(
+            contentPadding: EdgeInsets.symmetric(vertical: -10),
+            border:
+                UnderlineInputBorder(borderSide: BorderSide(color: colorRed)),
+            focusedBorder: UnderlineInputBorder(borderSide: BorderSide.none),
+            enabledBorder: UnderlineInputBorder(borderSide: BorderSide.none),
+            hintText: "Name",
+            errorStyle: TextStyle(color: colorRed),
+            hintStyle: TextStyle(color: colorRed, fontSize: size.height * 0.02),
+          ),
         ),
       ),
     ),

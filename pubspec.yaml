@@ -26,6 +26,7 @@ dependencies:
   bloc: ^6.1.1
   cloud_firestore: ^0.14.4
   cupertino_icons: ^1.0.1
+  date_format: ^1.0.9
   equatable: ^1.2.5
   eva_icons_flutter: ^2.0.1
   extended_image: ^1.5.0
