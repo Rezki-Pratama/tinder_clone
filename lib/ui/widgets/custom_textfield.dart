@@ -6,14 +6,13 @@ class CustomTextField extends StatelessWidget {
   final TextEditingController controller;
   final Function validator;
   final String hintText;
-  final bool autoCorrect, obscureText;
+  final bool obscureText;
 
   CustomTextField(
       {this.size,
       this.controller,
       this.validator,
       this.hintText,
-      this.autoCorrect,
       this.obscureText});
   @override
   Widget build(BuildContext context) {
@@ -27,7 +26,6 @@ class CustomTextField extends StatelessWidget {
         child: TextFormField(
           controller: controller,
           autovalidate: true,
-          autocorrect: autoCorrect,
           obscureText: obscureText,
           validator: validator,
           style: TextStyle(color: colorRed),

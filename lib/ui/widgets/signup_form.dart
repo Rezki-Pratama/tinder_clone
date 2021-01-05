@@ -5,6 +5,7 @@ import 'package:tinder/bloc/sign_up/bloc/signup_bloc.dart';
 import 'package:tinder/repositories/user_repositories.dart';
 import 'package:tinder/ui/utilities.dart';
 import 'package:tinder/ui/widgets/custom_button.dart';
+import 'package:tinder/ui/widgets/custom_textfield.dart';
 
 class SignUpForm extends StatefulWidget {
   final UserRepository _userRepository;
@@ -110,70 +111,26 @@ class _SignUpFormState extends State<SignUpForm> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  Material(
-                    color: Colors.white,
-                    elevation: 20,
-                    borderRadius: BorderRadius.circular(size.height * 0.03),
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(
-                          vertical: size.height * 0.01,
-                          horizontal: size.height * 0.02),
-                      child: TextFormField(
-                        controller: _emailController,
-                        autovalidate: true,
-                        validator: (_) {
-                          return !state.isEmailValid ? "Invalid Email" : null;
-                        },
-                        style: TextStyle(color: colorRed),
-                        decoration: InputDecoration(
-                          hintText: "Email",
-                          border: UnderlineInputBorder(
-                              borderSide: BorderSide(color: colorRed)),
-                          focusedBorder:
-                              UnderlineInputBorder(borderSide: BorderSide.none),
-                          enabledBorder:
-                              UnderlineInputBorder(borderSide: BorderSide.none),
-                          errorStyle: TextStyle(color: colorRed),
-                          hintStyle: TextStyle(
-                              color: colorRed, fontSize: size.height * 0.02),
-                        ),
-                      ),
-                    ),
+                  CustomTextField(
+                    controller: _emailController,
+                    validator: (_) {
+                      return !state.isEmailValid ? "Invalid Email" : null;
+                    },
+                    obscureText: false,
+                    hintText: "Email",
+                    size: size,
                   ),
                   SizedBox(height: size.height * 0.02),
-                  Material(
-                    color: Colors.white,
-                    elevation: 20,
-                    borderRadius: BorderRadius.circular(size.height * 0.03),
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(
-                          vertical: size.height * 0.01,
-                          horizontal: size.height * 0.02),
-                      child: TextFormField(
-                        controller: _passwordController,
-                        autocorrect: false,
-                        obscureText: true,
-                        autovalidate: true,
-                        validator: (_) {
+                  CustomTextField(
+                    controller: _passwordController,
+                    validator: (_) {
                           return !state.isPasswordValid
                               ? "Invalid Password"
                               : null;
                         },
-                        style: TextStyle(color: colorRed),
-                        decoration: InputDecoration(
-                          hintText: "Password",
-                          border: UnderlineInputBorder(
-                              borderSide: BorderSide(color: colorRed)),
-                          focusedBorder:
-                              UnderlineInputBorder(borderSide: BorderSide.none),
-                          enabledBorder:
-                              UnderlineInputBorder(borderSide: BorderSide.none),
-                          errorStyle: TextStyle(color: colorRed),
-                          hintStyle: TextStyle(
-                              color: colorRed, fontSize: size.height * 0.02),
-                        ),
-                      ),
-                    ),
+                        obscureText: true,
+                        hintText: "Password",
+                        size: size,
                   ),
                   SizedBox(height: size.height * 0.03),
                   GestureDetector(
@@ -190,12 +147,11 @@ class _SignUpFormState extends State<SignUpForm> {
                             ? colorRed
                             : Colors.white,
                       )),
-                      SizedBox(height: size.height * 0.03),
+                  SizedBox(height: size.height * 0.03),
                   Text('Or',
                       style: TextStyle(
-                          color: Colors.white,
-                          fontSize: size.height * 0.025)),
-                          SizedBox(height: size.height * 0.03),
+                          color: Colors.white, fontSize: size.height * 0.025)),
+                  SizedBox(height: size.height * 0.03),
                   Material(
                     color: Colors.white,
                     elevation: 20,

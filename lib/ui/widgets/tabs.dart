@@ -35,8 +35,7 @@ class Tabs extends StatelessWidget {
           appBar: AppBar(
             elevation: 0,
             title: Container(
-              width: 35,
-              child: Image.asset('assets/LinjanganLogo.png')),
+                width: 35, child: Image.asset('assets/LinjanganLogo.png')),
             actions: <Widget>[
               IconButton(
                 icon: Icon(Icons.exit_to_app),
@@ -54,19 +53,30 @@ class Tabs extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     TabBar(
-                      labelColor: colorRed,
+                      labelColor: Colors.white,
                       unselectedLabelColor: Colors.white,
                       indicatorSize: TabBarIndicatorSize.label,
                       indicator: BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(.5),
+                              blurRadius: 5.0, // soften the shadow
+                              spreadRadius: 0.0, //extend the shadow
+                              offset: Offset(
+                                3.0, // Move to right 10  horizontally
+                                3.0, // Move to bottom 10 Vertically
+                              ),
+                            ),
+                          ],
                           borderRadius: BorderRadius.circular(50),
-                          color: Colors.white),
+                          color: colorRed),
                       tabs: <Widget>[
                         Tab(
                           child: Container(
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(50),
-                                border: Border.all(
-                                    color: colorRed, width: 1)),
+                                // color: colorRed,
+                                border: Border.all(color: Colors.white, width: 2)),
                             child: Align(
                               alignment: Alignment.center,
                               child: Icon(Icons.search),
@@ -77,8 +87,8 @@ class Tabs extends StatelessWidget {
                           child: Container(
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(50),
-                                border: Border.all(
-                                    color: colorRed, width: 1)),
+                                // color: Colors.white,
+                                border: Border.all(color: Colors.white, width: 2)),
                             child: Align(
                               alignment: Alignment.center,
                               child: Icon(Icons.people),
@@ -89,8 +99,8 @@ class Tabs extends StatelessWidget {
                           child: Container(
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(50),
-                                border: Border.all(
-                                    color: colorRed, width: 1)),
+                                // color: Colors.white,
+                                border: Border.all(color: Colors.white, width: 2)),
                             child: Align(
                               alignment: Alignment.center,
                               child: Icon(Icons.message),

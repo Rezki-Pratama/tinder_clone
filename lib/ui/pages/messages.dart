@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tinder/ui/utilities.dart';
 
 class Message extends StatefulWidget {
 
@@ -13,8 +14,10 @@ class _MessageState extends State<Message> {
   
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text('Message Menu'),
-    );
+    return Scaffold(
+        backgroundColor: colorRed,
+        body: Center(
+          child: Text('Message Menu'),
+        ));
   }
 }

@@ -135,12 +135,11 @@ class _LoginFormState extends State<LoginForm> {
                     child: CustomTextField(
                       controller: _emailController,
                       obscureText: false,
-                      autoCorrect: false,
                       validator: (_) {
                         return !state.isEmailValid ? "Invalid Email" : null;
                       },
                       size: size,
-                      hintText: 'Email',
+                      hintText: "Email",
                     )),
                 Padding(
                     padding: EdgeInsets.all(size.height * 0.03),
@@ -151,10 +150,9 @@ class _LoginFormState extends State<LoginForm> {
                             ? "Invalid Password"
                             : null;
                       },
-                      autoCorrect: false,
                       obscureText: true,
                       size: size,
-                      hintText: 'Password',
+                      hintText: "Password",
                     )),
                 Padding(
                   padding: EdgeInsets.all(size.height * 0.03),
