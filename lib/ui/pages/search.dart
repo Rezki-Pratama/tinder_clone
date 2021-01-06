@@ -7,6 +7,9 @@ import 'package:geolocator/geolocator.dart';
 import 'package:tinder/bloc/search/bloc/search_bloc.dart';
 import 'package:tinder/model/user.dart';
 import 'package:tinder/repositories/search_repositories.dart';
+import 'package:tinder/ui/widgets/icon.dart';
+import 'package:tinder/ui/widgets/profile.dart';
+import 'package:tinder/ui/widgets/user_gender.dart';
 
 class Search extends StatefulWidget {
   final String userId;
@@ -134,7 +137,7 @@ class _SearchState extends State<Search> {
                             Colors.yellow),
                         iconWidget(Icons.clear, () {
                           _searchBloc
-                              .add(PassUserEvent(widget.userId, _user.uid));
+                              .add(SkipUserEvent(widget.userId, _user.uid));
                         }, size.height * 0.08, Colors.blue),
                         iconWidget(FontAwesomeIcons.solidHeart, () {
                           _searchBloc.add(
