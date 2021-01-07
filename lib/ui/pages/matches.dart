@@ -61,7 +61,7 @@ class _MatchesState extends State<Matches> {
                   pinned: true,
                   backgroundColor: colorRed,
                   title: Text(
-                    "Matched User",
+                    "Matches User",
                     style: TextStyle(color: Colors.white, fontSize: 30.0),
                   ),
                 ),
