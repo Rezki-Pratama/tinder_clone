@@ -9,18 +9,23 @@ class SearchRepository {
       : _firestore = firestore ?? FirebaseFirestore.instance;
 
   Future<User> selectUser(currentUserId, selectedUserId, name, photoUrl) async {
-    await _firestore.collection('users')
-    .doc(currentUserId)
-    .collection('selectList')
-    .doc(selectedUserId)
-    .set({});
-    
-    await _firestore.collection('users')
-    .doc(selectedUserId)
-    .collection('selectList')
-    .doc(currentUserId)
-    .set({});
+    //current user make collect selectList
+    await _firestore
+        .collection('users')
+        .doc(currentUserId)
+        .collection('chosenList')
+        .doc(selectedUserId)
+        .set({});
 
+    //selected user make collect selectList
+    await _firestore
+        .collection('users')
+        .doc(selectedUserId)
+        .collection('chosenList')
+        .doc(currentUserId)
+        .set({});
+
+    //select user make collect selectedList
     await _firestore
         .collection('users')
         .doc(selectedUserId)
@@ -31,21 +36,20 @@ class SearchRepository {
       'photoUrl': photoUrl,
     });
     return getUser(currentUserId);
-
   }
 
-  Future passUser(currentUserId, selectedUserId) async {
-    await _firestore
+  Future skipUser(currentUserId, selectedUserId) async {
+     await _firestore
         .collection('users')
         .doc(selectedUserId)
-        .collection('selectedList')
+        .collection('chosenList')
         .doc(currentUserId)
         .set({});
 
     await _firestore
         .collection('users')
         .doc(currentUserId)
-        .collection('selectedList')
+        .collection('chosenList')
         .doc(selectedUserId)
         .set({});
     return getUser(currentUserId);
@@ -54,7 +58,7 @@ class SearchRepository {
   Future getUserInterests(userId) async {
     User currentUser = User();
 
-    _firestore.collection('users').doc(userId).get().then((user) {
+    await _firestore.collection('users').doc(userId).get().then((user) {
       currentUser.name = user['name'];
       currentUser.photo = user['photoUrl'];
       currentUser.gender = user['gender'];
@@ -64,20 +68,20 @@ class SearchRepository {
   }
 
   Future<List> getSelectedList(userId) async {
-    List<String> selectedList = [];
+     List<String> chosenList = [];
     await _firestore
         .collection('users')
         .doc(userId)
-        .collection('selectedList')
+        .collection('chosenList')
         .get()
         .then((docs) {
       for (var doc in docs.docs) {
         if (docs.docs != null) {
-          selectedList.add(doc.id);
+          chosenList.add(doc.id);
         }
       }
     });
-    return selectedList;
+    return chosenList;
   }
 
   Future<User> getUser(userId) async {
@@ -105,5 +109,4 @@ class SearchRepository {
 
     return _user;
   }
-
 }

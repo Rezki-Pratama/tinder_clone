@@ -25,7 +25,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
           photoUrl: event.photoUrl);
     }
     if (event is SkipUserEvent) {
-      yield* _mapPassToState(
+      yield* _mapSkipToState(
         currentUserId: event.currentUserId,
         selectedUserId: event.selectedUserId,
       );
@@ -42,17 +42,17 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       String photoUrl}) async* {
     yield LoadingState();
 
-    User user = await _searchRepository.selectUser(
-        currentUserId, selectedUserId, name, photoUrl);
-
+    User user = await _searchRepository.selectUser(currentUserId, selectedUserId, name, photoUrl);
     User currentUser = await _searchRepository.getUserInterests(currentUserId);
+
     yield LoadUserState(user, currentUser);
   }
 
-  Stream<SearchState> _mapPassToState(
+  Stream<SearchState> _mapSkipToState(
       {String currentUserId, String selectedUserId}) async* {
+        
     yield LoadingState();
-    User user = await _searchRepository.passUser(currentUserId, selectedUserId);
+    User user = await _searchRepository.skipUser(currentUserId, selectedUserId);
     User currentUser = await _searchRepository.getUserInterests(currentUserId);
 
     yield LoadUserState(user, currentUser);
