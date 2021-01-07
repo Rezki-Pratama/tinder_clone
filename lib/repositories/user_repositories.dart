@@ -1,5 +1,7 @@
+import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class UserRepository {
   final FirebaseAuth _firebaseAuth;
@@ -12,24 +14,21 @@ class UserRepository {
 
   //fungsi login
   Future<void> signInWithEmail(String email, String password) {
-    _firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
+    return _firebaseAuth.signInWithEmailAndPassword(
+        email: email, password: password);
   }
 
   // check jika pertama kali login
   Future<bool> isFirstTime(String userId) async {
-    bool exist;
-    await FirebaseFirestore.instance
+    return FirebaseFirestore.instance
         .collection('users')
         .doc(userId)
         .get()
-        .then((user) => {exist = user.exists});
-
-    return exist;
+        .then((user) => user.exists);
   }
 
   //daftar akun
   Future<void> signUpWithEmail(String email, String password) async {
-    print(_firebaseAuth);
     return await _firebaseAuth.createUserWithEmailAndPassword(
         email: email, password: password);
   }
@@ -47,7 +46,38 @@ class UserRepository {
 
   //get uid
   Future<String> getUser() async {
-    return _firebaseAuth.currentUser.uid;
+    final currentUser = _firebaseAuth.currentUser;
+    return currentUser.uid;
   }
 
+  //profile setup
+  Future<void> profileSetup(
+      File photo,
+      String userId,
+      String name,
+      String gender,
+      String interestedIn,
+      DateTime age,
+      GeoPoint location) async {
+    UploadTask uploadTask;
+    uploadTask = FirebaseStorage.instance
+        .ref()
+        .child('userPhotos')
+        .child(userId)
+        .child(userId)
+        .putFile(photo);
+
+    //ketika berhasil upload file , mendapatkan url photo untuk disimpan di firestore dengan data yang lain
+    return await (await uploadTask).ref.getDownloadURL().then((url) async {
+      await _firestore.collection('users').doc(userId).set({
+        'uid': userId,
+        'photoUrl': url,
+        'name': name,
+        "location": location,
+        'gender': gender,
+        'interestedIn': interestedIn,
+        'age': age
+      });
+    });
+  }
 }
