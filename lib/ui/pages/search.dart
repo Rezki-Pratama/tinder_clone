@@ -1,17 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:tinder/bloc/search/bloc/search_bloc.dart';
 import 'package:tinder/model/user.dart';
 import 'package:tinder/repositories/search_repositories.dart';
 import 'package:tinder/ui/utilities.dart';
 import 'package:tinder/ui/widgets/card_user.dart';
-import 'package:tinder/ui/widgets/icon.dart';
-import 'package:tinder/ui/widgets/profile.dart';
-import 'package:tinder/ui/widgets/user_gender.dart';
 
 class Search extends StatefulWidget {
   final String userId;
@@ -65,7 +60,7 @@ class _SearchState extends State<Search> {
           if (state is LoadingState) {
             return Center(
               child: CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation(Colors.blueGrey),
+                valueColor: AlwaysStoppedAnimation(Colors.white),
               ),
             );
           }
