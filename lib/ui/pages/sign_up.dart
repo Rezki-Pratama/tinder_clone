@@ -1,0 +1,42 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tinder/bloc/sign_up/bloc/signup_bloc.dart';
+import 'package:tinder/repositories/user_repositories.dart';
+import 'package:tinder/ui/utilities.dart';
+import 'package:tinder/ui/widgets/signup_form.dart';
+
+class SignUp extends StatelessWidget {
+  final UserRepository _userRepository;
+
+  SignUp({@required UserRepository userRepository})
+      : assert(userRepository != null),
+        _userRepository = userRepository;
+
+  @override
+  Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    return Scaffold(
+      appBar: AppBar(
+        actions: [
+          Center(
+            child: Padding(
+              padding: EdgeInsets.only(right: size.width * 0.03),
+              child: Text(
+                "Sign Up",
+                style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold),
+              ),
+            ),
+          )
+        ],
+        backgroundColor: colorRed,
+        elevation: 0,
+      ),
+      body: BlocProvider<SignUpBloc>(
+        create: (context) => SignUpBloc(_userRepository),
+        child: SignUpForm(
+          userRepository: _userRepository,
+        ),
+      ),
+    );
+  }
+}
