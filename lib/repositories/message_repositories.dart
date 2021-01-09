@@ -45,7 +45,7 @@ class MessageRepository {
   Future<Message> getLastMessage({currentUserId, selectedUserId}) async {
     Message _message = Message();
 
-    await _firestore
+    _firestore
         .collection('users')
         .doc(currentUserId)
         .collection('chats')

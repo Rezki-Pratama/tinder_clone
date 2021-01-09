@@ -4,12 +4,12 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:tinder/model/message.dart';
 import 'package:uuid/uuid.dart';
 
-class MessagingRepository {
+class ChatRepository {
   final FirebaseFirestore _firestore;
   final FirebaseStorage _firebaseStorage;
   String uuid = Uuid().v4();
 
-  MessagingRepository({FirebaseStorage firebaseStorage, FirebaseFirestore firestore})
+  ChatRepository({FirebaseStorage firebaseStorage, FirebaseFirestore firestore})
       : _firebaseStorage = firebaseStorage ?? FirebaseStorage.instance,
         _firestore = firestore ?? FirebaseFirestore.instance;
 

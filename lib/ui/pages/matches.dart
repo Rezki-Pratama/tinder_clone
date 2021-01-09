@@ -1,14 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:tinder/bloc/matches/bloc/matches_bloc.dart';
 import 'package:tinder/model/user.dart';
 import 'package:tinder/repositories/matches_repositories.dart';
+import 'package:tinder/ui/pages/chat.dart';
 import 'package:tinder/ui/utilities.dart';
 import 'package:tinder/ui/widgets/dialog.dart';
 import 'package:tinder/ui/widgets/icon.dart';
+import 'package:tinder/ui/widgets/page_turn.dart';
 import 'package:tinder/ui/widgets/profile.dart';
 import 'package:tinder/ui/widgets/user_gender.dart';
 
@@ -29,7 +30,7 @@ class _MatchesState extends State<Matches> {
   getDifference(GeoPoint userLocation) async {
     Position position = await Geolocator.getCurrentPosition();
 
-    double location = await Geolocator.distanceBetween(userLocation.latitude,
+    double location = Geolocator.distanceBetween(userLocation.latitude,
         userLocation.longitude, position.latitude, position.longitude);
 
     difference = location.toInt();
@@ -86,7 +87,7 @@ class _MatchesState extends State<Matches> {
                                 User currentUser = await _matchesRepository
                                     .getUserDetails(widget.userId);
                                 await getDifference(selectedUser.location);
-                                
+
                                 showDialog(
                                   context: context,
                                   builder: (BuildContext context) => Dialog(
@@ -166,6 +167,13 @@ class _MatchesState extends State<Matches> {
                                                           selectedUser:
                                                               selectedUser.uid),
                                                     );
+                                                    pageTurn(
+                                                        Chats(
+                                                            currentUser:
+                                                                currentUser,
+                                                            selectedUser:
+                                                                selectedUser),
+                                                        context);
                                                   }, size.height * 0.04,
                                                       Colors.white),
                                                 ),
@@ -237,7 +245,6 @@ class _MatchesState extends State<Matches> {
                                 await getDifference(selectedUser.location);
                                 // ignore: missing_return
                                 showDialog(
-                                  barrierDismissible: false,
                                   context: context,
                                   builder: (BuildContext context) => Dialog(
                                       backgroundColor: Colors.transparent,
@@ -263,7 +270,7 @@ class _MatchesState extends State<Matches> {
                                           );
                                           Navigator.of(context).pop();
                                         },
-                                        onSave: () {
+                                        onSelect: () {
                                           _matchesBloc.add(
                                             AcceptUserEvent(
                                                 selectedUser: selectedUser.uid,

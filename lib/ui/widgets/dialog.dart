@@ -7,12 +7,11 @@ import 'package:tinder/ui/widgets/photo.dart';
 class DialogWidget extends StatelessWidget {
   final Size size;
   final String photo, gender, name, location, age;
-  final Function onClose, onSelect, onSave;
+  final Function onClose, onSelect;
   DialogWidget(
       {this.size,
       this.onClose,
       this.onSelect,
-      this.onSave,
       this.photo = '',
       this.gender = '',
       this.name = '',
